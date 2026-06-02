@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
   const month = searchParams.get('month')
   const categoryId = searchParams.get('categoryId')
   const search = searchParams.get('search')
+  const limit = searchParams.get('limit')
 
   const where: Record<string, unknown> = { userId: session.user.id }
 
@@ -40,6 +41,7 @@ export async function GET(req: NextRequest) {
         account: true,
       },
       orderBy: { date: 'desc' },
+      ...(limit ? { take: parseInt(limit, 10) } : {}),
     })
 
     return NextResponse.json(

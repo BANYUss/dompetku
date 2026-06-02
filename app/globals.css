@@ -10,6 +10,11 @@
   --color-dk-green: #22d3a5;
 }
 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
 @layer base {
   :root {
     --font-display: 'Syne', sans-serif;
