@@ -18,6 +18,7 @@ export function formatDate(date: Date | string): string {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+    timeZone: 'Asia/Jakarta',
   }).format(new Date(date))
 }
 
@@ -56,8 +57,15 @@ export function formatMonth(yyyyMm: string): string {
 }
 
 export function currentMonth(): string {
-  const now = new Date()
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  // Use explicit Jakarta timezone so server (UTC) and client agree on the month
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Jakarta',
+    year: 'numeric',
+    month: '2-digit',
+  }).formatToParts(new Date())
+  const year = parts.find((p) => p.type === 'year')!.value
+  const mon  = parts.find((p) => p.type === 'month')!.value
+  return `${year}-${mon}`
 }
 
 export function prevMonth(yyyyMm: string): string {
