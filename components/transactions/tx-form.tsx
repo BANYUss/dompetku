@@ -228,23 +228,23 @@ export function TxForm({ open, onClose, initialData, onSuccess }: TxFormProps) {
             </select>
           </div>
 
-          {/* Account (optional, only show if accounts exist) */}
-          {accounts.length > 0 && (
-            <div>
-              <label className="block text-xs font-medium text-white/50 mb-1.5">Akun Bank <span className="text-white/20">(opsional)</span></label>
-              <select
-                {...register('accountId')}
-                className="w-full h-10 rounded-xl border border-white/[0.07] bg-[#13131f] px-3 text-sm text-white focus:border-violet-500/50 focus:outline-none"
-              >
-                <option value="">— Pilih akun —</option>
-                {accounts.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          {/* Account */}
+          <div>
+            <label className="block text-xs font-medium text-white/50 mb-1.5">
+              Akun Bank <span className="text-white/20">(opsional)</span>
+            </label>
+            <p className="text-[11px] text-white/25 mb-1.5">Akun bank tempat transaksi terjadi (bisa dilewati)</p>
+            <select
+              {...register('accountId')}
+              disabled={accounts.length === 0}
+              className="w-full h-10 rounded-xl border border-white/[0.07] bg-[#13131f] px-3 text-sm text-white focus:border-violet-500/50 focus:outline-none disabled:opacity-40"
+            >
+              <option value="">{accounts.length === 0 ? 'Belum ada akun bank' : '— Pilih akun —'}</option>
+              {accounts.map((a) => (
+                <option key={a.id} value={a.id}>{a.name}</option>
+              ))}
+            </select>
+          </div>
 
           {/* Error */}
           {error && (
