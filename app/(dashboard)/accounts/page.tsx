@@ -1,11 +1,11 @@
 import { Topbar } from '@/components/layout/topbar'
 
-export default function DashboardPage() {
+export default function AccountsPage() {
   return (
     <div className="flex flex-col h-full">
-      <Topbar title="Dashboard" />
+      <Topbar title="Akun Bank" />
       <div className="flex-1 p-6 flex items-center justify-center">
-        <p className="text-white/40 text-sm">Dashboard — coming in CHUNK-07</p>
+        <p className="text-white/40 text-sm">Akun Bank — coming in CHUNK-08</p>
       </div>
     </div>
   )
