@@ -7,6 +7,7 @@ import { SummaryCards } from '@/components/dashboard/summary-cards'
 import { CategoryDonut } from '@/components/dashboard/category-donut'
 import { MonthlyTrend } from '@/components/dashboard/monthly-trend'
 import { RecentTransactions } from '@/components/dashboard/recent-transactions'
+import { AiInsightCard } from '@/components/dashboard/ai-insight-card'
 import { currentMonth, formatMonth, prevMonth } from '@/lib/utils'
 
 function getMonthOptions(base: string) {
@@ -104,18 +105,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-[1.4fr_1fr] gap-5">
           <RecentTransactions />
 
-          <div
-            className="rounded-2xl border border-dashed border-violet-500/20 bg-violet-500/[0.03] p-5 flex flex-col items-center justify-center gap-3"
-            style={{ animation: 'fadeUp 0.4s ease both', animationDelay: '350ms' }}
-          >
-            <div className="w-10 h-10 rounded-2xl bg-violet-500/10 flex items-center justify-center">
-              <span className="text-xl">🤖</span>
-            </div>
-            <div className="text-center">
-              <p className="text-xs font-semibold text-violet-400">AI Insight</p>
-              <p className="text-[11px] text-white/30 mt-0.5">Coming in CHUNK-10</p>
-            </div>
-          </div>
+          <AiInsightCard month={month} />
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { formatRupiah, formatDate, cn } from '@/lib/utils'
 import type { ParsedTransaction } from '@/lib/csv-parsers'
@@ -26,10 +26,34 @@ export function PreviewTable({
   onCancel,
   importing,
 }: PreviewTableProps) {
-  const [selectedAccount, setSelectedAccount] = useState('')
+  const [selectedAccount,  setSelectedAccount]  = useState('')
+  const [aiLoading,        setAiLoading]         = useState(false)
 
   const incomeCount  = transactions.filter((t) => t.type === 'income').length
   const expenseCount = transactions.filter((t) => t.type === 'expense').length
+
+  const handleAiCategorize = async () => {
+    setAiLoading(true)
+    try {
+      const descriptions = transactions.map((t) => t.description || '')
+      const res  = await fetch('/api/ai/categorize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ descriptions }),
+      })
+      const data = await res.json()
+      const ids: (string | null)[] = data.categoryIds ?? []
+      ids.forEach((id, i) => {
+        if (id !== null && id !== undefined) {
+          onUpdate(i, { categoryId: id })
+        }
+      })
+    } catch {
+      alert('Gagal menghubungi AI. Silakan coba lagi.')
+    } finally {
+      setAiLoading(false)
+    }
+  }
 
   return (
     <div className="rounded-2xl border border-white/[0.07] bg-[#13131f] overflow-hidden">
@@ -59,11 +83,18 @@ export function PreviewTable({
             </select>
           )}
 
-          <div title="Akan tersedia di CHUNK-10">
-            <Button variant="secondary" size="sm" disabled className="opacity-40 cursor-not-allowed gap-1.5">
-              <Sparkles size={12} /> Auto-Kategori AI
-            </Button>
-          </div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleAiCategorize}
+            disabled={aiLoading || importing}
+            className="gap-1.5"
+          >
+            {aiLoading
+              ? <><Loader2 size={12} className="animate-spin" /> Mengkategorisasi...</>
+              : <><Sparkles size={12} className="text-violet-400" /> Auto-Kategori AI ✨</>
+            }
+          </Button>
         </div>
       </div>
 
