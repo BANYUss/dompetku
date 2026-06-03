@@ -6,25 +6,38 @@ export default async function LoginPage() {
   if (session) redirect('/dashboard')
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f]">
-      <div className="w-full max-w-sm p-8 rounded-2xl border border-white/10 bg-[#13131f] text-center">
-
+    <div className="min-h-screen flex items-center justify-center dark:bg-[#0a0a0f] bg-gray-50">
+      <div
+        className="w-full max-w-sm p-8 rounded-2xl border dark:border-white/10 border-gray-200 dark:bg-[#13131f] bg-white text-center shadow-xl"
+        style={{ animation: 'fadeUp 0.4s ease both' }}
+      >
+        {/* Logo */}
         <div className="mb-8">
-          <h1 className="font-display text-3xl font-black bg-gradient-to-r from-violet-400 to-emerald-400 bg-clip-text text-transparent">
+          <h1
+            className="font-display text-3xl font-black bg-gradient-to-r from-violet-400 to-emerald-400 bg-clip-text text-transparent"
+            style={{ animation: 'fadeUp 0.4s ease both 0.1s', opacity: 0, animationFillMode: 'both' }}
+          >
             Dompetku
           </h1>
-          <p className="text-sm text-white/40 mt-1">Finance Tracker pribadi kamu</p>
+          <p
+            className="text-sm dark:text-white/40 text-gray-500 mt-1"
+            style={{ animation: 'fadeUp 0.4s ease both 0.2s', opacity: 0, animationFillMode: 'both' }}
+          >
+            Finance Tracker pribadi kamu
+          </p>
         </div>
 
+        {/* Login Button */}
         <form
           action={async () => {
             'use server'
             await signIn('google', { redirectTo: '/dashboard' })
           }}
+          style={{ animation: 'fadeUp 0.4s ease both 0.3s', opacity: 0, animationFillMode: 'both' }}
         >
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-white text-gray-900 font-semibold text-sm hover:bg-gray-100 transition-colors"
+            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-white text-gray-900 font-semibold text-sm hover:bg-gray-100 transition-colors border border-gray-200 shadow-sm"
           >
             <svg width="18" height="18" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -36,7 +49,10 @@ export default async function LoginPage() {
           </button>
         </form>
 
-        <p className="text-xs text-white/30 mt-6">
+        <p
+          className="text-xs dark:text-white/30 text-gray-400 mt-6"
+          style={{ animation: 'fadeUp 0.4s ease both 0.4s', opacity: 0, animationFillMode: 'both' }}
+        >
           Data kamu aman dan hanya bisa diakses oleh kamu sendiri
         </p>
       </div>

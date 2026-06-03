@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Sparkles, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { formatRupiah, formatDate, cn } from '@/lib/utils'
 import type { ParsedTransaction } from '@/lib/csv-parsers'
@@ -43,13 +44,15 @@ export function PreviewTable({
       })
       const data = await res.json()
       const ids: (string | null)[] = data.categoryIds ?? []
+      const categorized = ids.filter((id) => id !== null).length
       ids.forEach((id, i) => {
         if (id !== null && id !== undefined) {
           onUpdate(i, { categoryId: id })
         }
       })
+      toast.success(`AI berhasil mengkategorisasi ${categorized} transaksi`)
     } catch {
-      alert('Gagal menghubungi AI. Silakan coba lagi.')
+      toast.error('Gagal menghubungi AI. Silakan coba lagi.')
     } finally {
       setAiLoading(false)
     }

@@ -10,18 +10,34 @@
   --color-dk-green: #22d3a5;
 }
 
+/* ── Design tokens ── */
+:root {
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --bg-primary: #f8f9fa;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --border-color: rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  --bg-primary: #0a0a0f;
+  --bg-card: #13131f;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 255, 255, 0.07);
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0);     }
 }
 
 @layer base {
-  :root {
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
-  }
-
   body {
     font-family: var(--font-body);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
   }
 }

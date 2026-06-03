@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Search, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
+import { toast } from 'sonner'
 import { formatMonth, prevMonth, nextMonth } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { TxItem } from './tx-item'
@@ -64,9 +65,14 @@ export function TxList({ month, onMonthChange, refreshKey, onAddClick, onEdit }:
   const handleDelete = async (id: string) => {
     try {
       const res = await fetch(`/api/transactions/${id}`, { method: 'DELETE' })
-      if (res.ok) fetchTransactions(month, search)
+      if (res.ok) {
+        toast.success('Transaksi berhasil dihapus')
+        fetchTransactions(month, search)
+      } else {
+        toast.error('Gagal menghapus transaksi')
+      }
     } catch {
-      alert('Gagal menghapus transaksi')
+      toast.error('Gagal menghapus transaksi')
     }
   }
 

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { X, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { BANK_CONFIG, type BankType } from '@/lib/bank-config'
 import { cn } from '@/lib/utils'
@@ -50,10 +51,13 @@ export function AccountForm({ open, onClose, onSuccess }: AccountFormProps) {
         const d = await res.json()
         throw new Error(d.error ?? 'Gagal menyimpan akun')
       }
+      toast.success('Akun bank berhasil ditambahkan')
       onSuccess()
       handleClose()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Terjadi kesalahan')
+      const msg = e instanceof Error ? e.message : 'Terjadi kesalahan'
+      setError(msg)
+      toast.error(msg)
     } finally {
       setSubmitting(false)
     }

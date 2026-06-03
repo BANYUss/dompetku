@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dompetku — Personal Finance Tracker
 
-## Getting Started
+Aplikasi finance tracker pribadi berbasis Next.js 16 dengan AI insight dari Google Gemini.
+Dirancang dengan dark-first UI yang rich dan premium, terinspirasi dari Vercel & Linear.
 
-First, run the development server:
+## Fitur
+
+- **Dashboard** — Summary cards, donut chart per kategori, bar chart tren 6 bulan, transaksi terbaru
+- **Transaksi** — Tambah, edit, hapus transaksi income/expense dengan kategori
+- **Akun Bank** — Manajemen akun bank dengan live balance tracking
+- **Import CSV** — Upload mutasi bank (BCA, Mandiri, GoPay) dengan preview & kategorisasi manual
+- **AI Insight** — Analisis keuangan bulanan via Google Gemini API (dengan server-side caching)
+- **Auto-Kategorisasi AI** — Kategorisasi batch transaksi CSV via Gemini
+- **Analitik** — Breakdown per kategori, perbandingan bulan ke bulan, top transaksi
+- **Dark/Light Mode** — Toggle tema
+- **Google OAuth** — Login aman via Google
+
+## Tech Stack
+
+| Layer | Teknologi |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Database | Neon PostgreSQL (serverless) |
+| ORM | Prisma v7 |
+| Auth | NextAuth.js v5 + Google OAuth |
+| Styling | Tailwind CSS v4 |
+| Charts | Recharts |
+| Forms | React Hook Form + Zod |
+| AI | Google Gemini 2.5 Flash |
+| CSV Parser | Papa Parse |
+| Notifications | Sonner |
+| Theme | next-themes |
+| Deploy | Vercel |
+
+## Setup
 
 ```bash
+# 1. Clone & install
+git clone <repo-url>
+cd dompetku
+npm install
+
+# 2. Setup environment
+cp .env.local .env.local
+# Isi semua variable di .env.local
+
+# 3. Setup database
+npx prisma db push
+npx prisma db seed
+
+# 4. Jalankan dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+DATABASE_URL="postgresql://..."         # Neon dashboard
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="..."                   # openssl rand -base64 32
+GOOGLE_CLIENT_ID="..."                  # Google Cloud Console
+GOOGLE_CLIENT_SECRET="..."
+GEMINI_API_KEY="..."                    # Google AI Studio
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## API Keys
 
-## Learn More
+- **DATABASE_URL**: [Neon Console](https://console.neon.tech)
+- **Google OAuth**: [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials
+- **Gemini API**: [Google AI Studio](https://aistudio.google.com/apikey)
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

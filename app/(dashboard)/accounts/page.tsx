@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Plus, Landmark } from 'lucide-react'
+import { toast } from 'sonner'
 import { Topbar } from '@/components/layout/topbar'
 import { Button } from '@/components/ui/button'
 import { AccountCard } from '@/components/accounts/account-card'
@@ -37,10 +38,14 @@ export default function AccountsPage() {
 
     try {
       const res = await fetch(`/api/accounts/${id}`, { method: 'DELETE' })
-      if (res.ok) fetchAccounts()
-      else alert('Gagal menghapus akun')
+      if (res.ok) {
+        toast.success('Akun bank berhasil dihapus')
+        fetchAccounts()
+      } else {
+        toast.error('Gagal menghapus akun')
+      }
     } catch {
-      alert('Gagal menghapus akun')
+      toast.error('Gagal menghapus akun')
     }
   }
 

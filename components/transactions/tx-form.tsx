@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { X, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import type { Transaction, Category, Account } from '@/types/transaction'
@@ -114,10 +115,13 @@ export function TxForm({ open, onClose, initialData, onSuccess }: TxFormProps) {
         const data = await res.json()
         throw new Error(data.error ?? 'Gagal menyimpan transaksi')
       }
+      toast.success(isEdit ? 'Transaksi berhasil diupdate' : 'Transaksi berhasil ditambahkan')
       onSuccess()
       onClose()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Terjadi kesalahan')
+      const msg = e instanceof Error ? e.message : 'Terjadi kesalahan'
+      setError(msg)
+      toast.error(msg)
     } finally {
       setSubmitting(false)
     }

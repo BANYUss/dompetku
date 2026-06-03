@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { CheckCircle, LayoutDashboard, RotateCcw, AlertCircle } from 'lucide-react'
+import { toast } from 'sonner'
 import { Topbar } from '@/components/layout/topbar'
 import { Button } from '@/components/ui/button'
 import { StepIndicator } from '@/components/import/step-indicator'
@@ -89,9 +90,11 @@ export default function ImportPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
       setImportResult({ imported: data.imported, skipped: data.skipped })
+      toast.success(`${data.imported} transaksi berhasil diimport!`)
       setStep(4)
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'Import gagal')
+      const msg = e instanceof Error ? e.message : 'Import gagal'
+      toast.error(msg)
     } finally {
       setImporting(false)
     }
