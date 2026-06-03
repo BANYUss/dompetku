@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
   const month =
     searchParams.get('month') ??
     `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  const txType = (searchParams.get('type') ?? 'expense') as 'income' | 'expense'
 
   const { start, end } = getMonthRange(month)
 
@@ -23,7 +24,7 @@ export async function GET(req: NextRequest) {
     const transactions = await prisma.transaction.findMany({
       where: {
         userId: session.user.id,
-        type: 'expense',
+        type: txType,
         date: { gte: start, lt: end },
       },
       include: { category: true },
@@ -52,17 +53,17 @@ export async function GET(req: NextRequest) {
       grouped[key].total += Number(tx.amount)
     }
 
-    const totalExpense = Object.values(grouped).reduce((s, g) => s + g.total, 0)
+    const grandTotal = Object.values(grouped).reduce((s, g) => s + g.total, 0)
 
     const result = Object.values(grouped)
       .sort((a, b) => b.total - a.total)
       .slice(0, 8)
       .map((g) => ({
         ...g,
-        percentage: totalExpense > 0 ? Math.round((g.total / totalExpense) * 100) : 0,
+        percentage: grandTotal > 0 ? Math.round((g.total / grandTotal) * 100) : 0,
       }))
 
-    return NextResponse.json({ categories: result, total: totalExpense, month })
+    return NextResponse.json({ categories: result, total: grandTotal, month, type: txType })
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 })
   }
